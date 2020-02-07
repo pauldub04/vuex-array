@@ -7,9 +7,19 @@
     </div>
     <button @click="addOne">+1</button>
     <button @click="plusDiag">+ diag</button>
-    <input type="number" v-model="firstInd"><br/>
-    <input type="number" v-model="secInd">
-    <button @click="swapCols">swap</button>
+    <br/>
+    Swap lines
+    <input type="text" v-model="firstLine">
+    <input type="text" v-model="secLine">
+    <button @click="swapLine">Swap</button>
+    <br/>
+    Swap columns
+    <input type="text" v-model="firstCol">
+    <input type="text" v-model="secCol">
+    <button @click="swapCol">Swap</button>
+    <br/>
+    <button @click="AddTable">AddTable</button>
+    <button @click="AddLine">AddLine</button>
   </div>
 </template>
 
@@ -27,16 +37,41 @@ export default {
       this.$store.dispatch('plusDiag');
 
     },
-    swapCols() {
-      this.$store.dispatch('swapLine', { 'a' : this.firstInd,
-                                         'b' : this.secInd }
+    swapLine() {
+      if (this.firstLine > this.$store.getters.getArray.length ||
+          this.secLine > this.$store.getters.getArray.length ||
+          this.firstLine == 0 ||
+          this.secLine == 0)
+        alert('Value is not available');
+      else
+        this.$store.dispatch('swapLine', { a: this.firstLine - 1,
+                                         b: this.secLine - 1 }
       );
+    },
+    swapCol() {
+      if (this.firstCol > this.$store.getters.getArray.length ||
+          this.secCol > this.$store.getters.getArray.length ||
+          this.firstCol == 0 ||
+          this.secCol == 0)
+        alert('Value is not available');
+      else
+        this.$store.dispatch('swapCol', { a: this.firstCol - 1,
+                                        b: this.secCol - 1 }
+      );
+    },
+    AddTable(){
+      this.$store.dispatch("addTable");
+    },
+    AddLine(){
+      this.$store.dispatch("addLine");
     }
   },
   data() {
     return {
-      firstInd: '',
-      secInd: '',
+      firstLine: '',
+      secLine: '',
+      firstCol: '',
+      secCol: '',
     }
   }
 }
